@@ -1,0 +1,141 @@
+@font-face {
+  font-family: "SSStandard";
+  src: url(https://assetcache.harvestapp.com/fonts/ss-standard.eot);
+  src: url(https://assetcache.harvestapp.com/fonts/ss-standard.eot?#iefix) format(embedded-opentype), url(https://assetcache.harvestapp.com/fonts/ss-standard.woff) format(woff), url(https://assetcache.harvestapp.com/fonts/ss-standard.ttf) format(truetype), url(https://assetcache.harvestapp.com/fonts/ss-standard.svg#SSStandard) format(svg);
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* line 10, ../sass/_fixes.sass */
+.footer-harvest-link {
+  background-image: url(https://assetcache.harvestapp.com/images/footer-powered-by-harvest.png?1362087349);
+}
+
+/* line 13, ../sass/_fixes.sass */
+.button-new-time-entry > .plus {
+  background-image: url(https://assetcache.harvestapp.com/images/timesheets/new-entry-plus.png?1362087353);
+}
+
+/* line 16, ../sass/_fixes.sass */
+.running-icon > i {
+  background-image: url(https://assetcache.harvestapp.com/images/timesheets/running-timer-hand-gray.png?1362087353);
+}
+
+/* line 19, ../sass/_fixes.sass */
+.button-running > .running-icon > i {
+  background-image: url(https://assetcache.harvestapp.com/images/timesheets/running-timer-hand-blue.gif?1362087353);
+}
+
+/* line 22, ../sass/_fixes.sass */
+.chzn-single > abbr {
+  background-image: url(https://assetcache.harvestapp.com/images/chosen-sprite.png?1362087353);
+}
+
+/* line 26, ../sass/_fixes.sass */
+.new-entry-form label {
+  display: block;
+}
+
+/* line 1, ../sass/_entry_form_v2.sass */
+.new-entry-form * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* line 4, ../sass/_entry_form_v2.sass */
+.new-entry-form {
+  background: #d4f1ff;
+  border-bottom: 1px solid #cccccc;
+  padding: 10px;
+}
+/* line 9, ../sass/_entry_form_v2.sass */
+li .new-entry-form {
+  border-bottom: 0;
+}
+/* line 12, ../sass/_entry_form_v2.sass */
+.new-entry-form .field {
+  float: left;
+  padding: 5px;
+}
+/* line 16, ../sass/_entry_form_v2.sass */
+.new-entry-form h2 {
+  float: none !important;
+}
+/* line 19, ../sass/_entry_form_v2.sass */
+.new-entry-form label {
+  display: none !important;
+}
+
+/* line 23, ../sass/_entry_form_v2.sass */
+.nef-projects,
+.nef-tasks {
+  width: 43.25%;
+}
+
+/* line 27, ../sass/_entry_form_v2.sass */
+.nef-duration-notes {
+  width: 65%;
+}
+/* line 30, ../sass/_entry_form_v2.sass */
+.nef-duration-notes > textarea {
+  max-width: 100%;
+}
+
+/* line 33, ../sass/_entry_form_v2.sass */
+.nef-duration {
+  margin: 0;
+  width: 35%;
+}
+/* line 37, ../sass/_entry_form_v2.sass */
+.nef-duration > input[type="text"] {
+  background: white url(../img/time.png) 7px 50% no-repeat;
+  float: left;
+  width: 60%;
+}
+/* line 42, ../sass/_entry_form_v2.sass */
+.nef-duration > span {
+  float: left;
+  font-size: 11px;
+  display: block;
+  line-height: 1.2;
+  opacity: 0.6;
+  padding: 1px 5px 1px 7px;
+  width: 40%;
+}
+
+/* line 51, ../sass/_entry_form_v2.sass */
+.nf-submit {
+  margin: 0;
+}
+
+/* line 54, ../sass/_entry_form_v2.sass */
+.chzn-container,
+.chzn-container-single .chzn-drop {
+  width: 100% !important;
+}
+
+/* line 59, ../sass/_entry_form_v2.sass */
+.chzn-container-single .chzn-single {
+  background: white;
+  border-radius: 4px;
+  border-color: #bbbbbb;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  height: auto;
+  line-height: 1.2;
+  padding: 6px 10px;
+}
+/* line 68, ../sass/_entry_form_v2.sass */
+.chzn-container-single .chzn-single div {
+  right: 7px;
+  width: 29px;
+}
+/* line 72, ../sass/_entry_form_v2.sass */
+.chzn-container-single .chzn-single div b {
+  background: url(../img/dropdown.png) 0 50% no-repeat !important;
+}
+
+/* line 76, ../sass/_entry_form_v2.sass */
+.is-disabled {
+  opacity: 0.3 !important;
+}

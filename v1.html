@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<!-- saved from url=(0058)https://cramerdev.harvestapp.com/time/day/2013/02/25/67789 -->
+<html lang="en"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Timesheet Day View Revamp Prototype</title>
+
+    <meta http-equiv="X-UA-Compatible" content="chrome=IE8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Harvest">
+    <link rel="shortcut icon" href="https://assetcache.harvestapp.com/favicon.ico?1362087353" type="image/x-icon">
+    <link rel="apple-touch-icon-precomposed" href="https://assetcache.harvestapp.com/apple-touch-icon-precomposed.png?1362087353">
+    <link href="./web_assets/screen.css" media="all" rel="stylesheet" type="text/css">
+    <link href="./web_assets/print.css" media="print" rel="stylesheet" type="text/css">
+
+    <link href="./chosen/chosen.css" rel="stylesheet">
+    <link href="./css/main.css" rel="stylesheet">
+
+    <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="L42gjXwBYmZ9zbj61s1EWL+0pdbXXOKcUjC1CSw9l9E=">
+
+
+
+
+    <script type="text/javascript">
+//<![CDATA[
+window._dateFormat = [["mm","dd","yyyy"],"/"];window._source_name = 'weekly/index';
+//]]>
+</script>
+    <!--[if IE]>
+      <script type="text/javascript">
+        //<![CDATA[
+          (function(){
+            var html5elmeents = "address|article|aside|audio|canvas|command|datalist|details|dialog|figure|figcaption|footer|header|hgroup|keygen|mark|meter|menu|nav|progress|ruby|section|time|video".split('|');
+            for(var i = 0; i < html5elmeents.length; i++){
+              document.createElement(html5elmeents[i]);
+            }
+          })();
+        //]]>
+      </script>
+    <![endif]-->
+    <!--[if lt IE 9]>
+      <script src="https://assetcache.harvestapp.com/javascripts/vendor/html5shiv-printshiv.js?1362087353" type="text/javascript"></script>
+    <![endif]-->
+    <!--[if lt IE 10]>
+      <script src="https://assetcache.harvestapp.com/javascripts/ss-standard.js?1362087353" type="text/javascript"></script>
+    <![endif]-->
+    <meta name="thousands-separator" content=",">
+<meta name="decimal-symbol" content=".">
+<meta name="currency-symbol-as-prefix" content="true">
+<meta name="suffix-currency-code" content="true">
+<meta name="default-iso" content="USD">
+</head>
+
+  <body><div class="trafficlight" style="display:none;">Harvest is syncing</div>
+    <div id="container">
+      <script type="text/javascript" charset="utf-8">
+
+  // http://www.quirksmode.org/js/detect.html
+
+  var BrowserDetect = {
+    init: function () {
+      this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+      this.version = this.searchVersion(navigator.userAgent)
+        || this.searchVersion(navigator.appVersion)
+        || "an unknown version";
+      this.OS = this.searchString(this.dataOS) || "an unknown OS";
+    },
+    searchString: function (data) {
+      for (var i = 0; i < data.length; i++) {
+        var dataString = data[i].string;
+        var dataProp = data[i].prop;
+        this.versionSearchString = data[i].versionSearch || data[i].identity;
+        if (dataString) {
+          if (dataString.indexOf(data[i].subString) != -1)
+            return data[i].identity;
+        }
+        else if (dataProp)
+          return data[i].identity;
+      }
+    },
+    searchVersion: function (dataString) {
+      var index = dataString.indexOf(this.versionSearchString);
+      if (index == -1) return;
+      return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
+    },
+    dataBrowser: [
+      {
+        string: navigator.userAgent,
+        subString: "Chrome",
+        identity: "Chrome"
+      },
+      {
+        string: navigator.userAgent,
+        subString: "Fluid",
+        identity: "Fluid",
+        versionSearch: "Version"
+      },
+      {
+        string: navigator.vendor,
+        subString: "Apple",
+        identity: "Safari",
+        versionSearch: "Version"
+      },
+      {
+        prop: window.opera,
+        identity: "Opera",
+        versionSearch: "Version"
+      },
+      {
+        string: navigator.userAgent,
+        subString: "Firefox",
+        identity: "Firefox"
+      },
+      {
+        string: navigator.userAgent,
+        subString: "chromeframe",
+        identity: "Chrome Frame"
+      },
+      {
+        string: navigator.userAgent,
+        subString: "MSIE",
+        identity: "Explorer",
+        versionSearch: "MSIE"
+      }
+    ],
+    dataOS : [
+      {
+         string: navigator.userAgent,
+         subString: "iPhone",
+         identity: "iPhone/iPod"
+      },
+      {
+         string: navigator.userAgent,
+         subString: "iPad",
+         identity: "iPad"
+      },
+      {
+         string: navigator.userAgent,
+         subString: "Android",
+         identity: "Android"
+      },
+      {
+        string: navigator.platform,
+        subString: "Win",
+        identity: "Windows"
+      },
+      {
+        string: navigator.platform,
+        subString: "Mac",
+        identity: "Mac"
+      },
+      {
+        string: navigator.platform,
+        subString: "Linux",
+        identity: "Linux"
+      }
+    ]
+
+  };
+  BrowserDetect.init();
+
+  if( (BrowserDetect.browser == "Chrome" && parseInt(BrowserDetect.version) < 15) ||
+      (BrowserDetect.browser == "Safari" && parseInt(BrowserDetect.version) < 5) ||
+      (BrowserDetect.browser == "Firefox" && parseInt(BrowserDetect.version) < 4) ||
+      (BrowserDetect.browser == "Explorer" && parseInt(BrowserDetect.version) < 8)) {
+      document.write(
+        "<div id='old_browser'>" +
+          "<div id='message_block_outdated'>" +
+            "<p><strong>Sorry, this is not a supported web browser.</strong></p>" +
+            "<p>Harvest uses the latest technology for the best user experience. Unfortunately, your browser is out of date and and could put your data at risk. Please upgrade to one of these supported browsers:</p>" +
+            "<ul class='upgrade-browser'>" +
+              "<li class='up-chrome'><a href='http://www.google.com/chrome'>Google Chrome</a></li>" +
+              "<li class='up-firefox'><a href='http://www.mozilla.com/firefox/'>Mozilla Firefox</a></li>" +
+              "<li class='up-safari'><a href='http://support.apple.com/kb/DL1531'>Apple Safari</a></li>" +
+              "<li class='up-ie'><a href='http://windows.microsoft.com/en-US/internet-explorer/download-ie'>Internet Explorer</a></li>" +
+            "</ul>" +
+          "</div>" +
+        "</div>");
+  }
+  else if( (BrowserDetect.browser == "Chrome" && parseInt(BrowserDetect.version) >= 15) ||
+           (BrowserDetect.browser == "Safari" && parseInt(BrowserDetect.version) >= 5) ||
+           (BrowserDetect.browser == "Firefox" && parseInt(BrowserDetect.version) >= 4) ||
+           (BrowserDetect.browser == "Explorer" && parseInt(BrowserDetect.version) >= 8) ||
+           (BrowserDetect.browser == "Fluid") ||
+           (BrowserDetect.browser == "Chrome Frame") ||
+           (BrowserDetect.OS == 'iPhone/iPod') ||
+           (BrowserDetect.OS == 'iPad') ||
+           (BrowserDetect.OS == 'Android')) {
+           // do nothing
+  }
+  else {
+    document.write(
+      "<div id='old_browser' class='slim-bar'>" +
+        "<div id='message_block_unsupported'>" +
+          "<p><strong>You are using an unsupported browser.</strong> Continued use may place your data at risk. Please consider one of these <a href='http://www.getharvest.com/help/supported-browsers' target='new'>supported browsers</a> instead.</p>" +
+        "</div>" +
+      "</div>");
+  }
+
+</script>
+
+<noscript>
+  &lt;div id="old_browser" class="nooojs"&gt;
+    &lt;strong&gt;Attention: Harvest requires JavaScript.&lt;/strong&gt;&lt;br /&gt;
+    &lt;a href="http://enable-javascript.com/"&gt;Please enable JavaScript&lt;/a&gt; to use Harvest without any issue.
+  &lt;/div&gt;
+</noscript>
+      <header>
+                <nav id="nav" class="nav-legacy">
+  <div class="wrapper">
+    <ul class="nav-tabs">
+
+      <li class="nav-home">
+        <a href="https://cramerdev.harvestapp.com/overview" class="ss-icon" title="Home">Home</a>      </li>
+
+      <li>
+        <a href="https://cramerdev.harvestapp.com/reports" class="">Reports</a>      </li>
+
+      <li>
+        <a href="https://cramerdev.harvestapp.com/time/week" class="current">Timesheets</a>      </li>
+
+
+
+        <li>
+          <a href="https://cramerdev.harvestapp.com/projects" class="">Manage</a>
+        </li>
+
+      <li class="nav-tab-right nav-user">
+        <a href="javascript:void(0)" class="nav-dropdown-btn ss-after ss-after-dropdown" rel="#pop-over-user" title="Daniel Marino">
+          <img src="./web_assets/normal.png" height="32" title="Daniel Marino" alt="Daniel Marino" width="32">
+        </a>
+        <div id="pop-over-user" class="pop-over pop-over-down-right">
+          <div class="user-information">
+            <strong>Daniel Marino</strong>
+            <span>Cramer Development Incorporated</span>
+          </div>
+          <ul class="pop-over-dropdown">
+              <li><a href="https://cramerdev.harvestapp.com/people/67789/edit#profile_base">My Profile</a></li>
+              <li><a href="https://cramerdev.harvestapp.com/reports/users/67789">My Time Report</a></li>
+              <li><a href="https://cramerdev.harvestapp.com/account/logout">Sign Out</a></li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="nav-tab-right nav-help"><a href="https://www.getharvest.com/help?h=RGFuaWVsIE1hcmlubyxkYW5pZWxAY3JhbWVyZGV2LmNvbSxjcmFtZXJkZXYsaHR0cHM6Ly9jcmFtZXJkZXYuaGFydmVzdGFwcC5jb20vdGltZS9kYXkvMjAxMy8wMy8wMS82Nzc4OS0tOGYwNmFhY2Q2YTc5NmNhNzkwZmJmNmJlMWZhN2RjZTNmMGM0YzA4MQ%3D%3D" target="_blank">Help</a></li>
+
+    </ul>
+  </div>
+</nav>
+        <nav id="sub-nav">
+  <div class="wrapper">
+      <ul class="sub-nav-tabs">
+
+        <li><a href="https://cramerdev.harvestapp.com/time/week" class="current">Time</a></li>        <li><a href="https://cramerdev.harvestapp.com/expenses" class="nobdr">Expenses</a></li>
+</ul><div class="nobdr pagetips" id="page_tips" style="display:none;"><a href="https://cramerdev.harvestapp.com/time/day/2013/02/25/67789#" onclick="toggle_help_box(); return false;" style="font-weight:normal;">Page Tips</a></div>  </div>
+</nav>
+      </header>
+      <div id="main_content">
+
+<div id="status_message" class="">
+  <span class="flash-message"></span>
+</div>
+        <div class="wrapper">
+
+
+
+
+
+  <script type="application/json" id="all-users-data-island">
+    {"67789":{"name":"Daniel Marino","avatar":"/uploads/users/avatar/000/067/789/normal.png","is_contractor":false,"is_archived":false}}
+  </script>
+
+
+
+  <div id="AjaxSuccess" style="display:none">
+  <span id="POST-time-update_preferred_entry_method-daily">Completed</span><span id="POST-time-update_preferred_entry_method-daily">Completed</span><span id="GET-time-api-running_timers-json-user_id-67789">Completed</span><span id="GET-time-weekly-check_for_updates">Completed</span><span id="GET-time-weekly-check_for_updates">Completed</span><span id="GET-time-weekly-check_for_updates">Completed</span></div>
+
+      <div style="clear:both;"></div>
+
+
+
+<div class="js-root-view day-view-wrapper js-with-models js-harvest-current-view" data-view-id="view63">
+<div class="flash-wrap"></div>
+<div class="timesheet-header">
+<div class="f-left">
+<h1 class="test-day-20130225 test-user-67789">
+Monday
+<span>25 Feb</span>
+
+
+</h1>
+<h2>Timesheet for Daniel Marino</h2>
+</div>
+<div class="f-right">
+<span class="loading loading-week">
+&nbsp;
+</span>
+<div class="button-toggle">
+<a class="button button-toggle-arrow js-jump-one-day-back" href="javascript:void(0)" tabindex="1" title="Previous Day">
+<span class="ss-icon" title="Previous Day">Previous</span>
+</a>
+
+<a class="button jump-to-today" href="javascript:void(0)" tabindex="1" title="Jump to Today">Today</a>
+
+<a class="button button-toggle-arrow js-jump-one-day-forward" href="javascript:void(0)" tabindex="1" title="Next Day">
+<span class="ss-icon" title="Next Day">Next</span>
+</a>
+</div>
+&nbsp;
+<a class="button js-calendar" href="javascript:void(0)" tabindex="1" title="Change Date">
+<span class="ss-icon" title="Change Date">Calendar</span>
+</a>
+<div class="pop-over js-day-view-calendar-wrap"><div class="kalendae"><div class="k-calendar" data-cal-index="0"><div class="k-title k-disable-year-nav"><a class="k-btn-previous-year"></a><a class="k-btn-previous-month">Previous</a><a class="k-btn-next-year"></a><a class="k-btn-next-month">Next</a><span class="k-caption">February 2013</span></div><div class="k-header"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div><div class="k-days"><span class="k-out-of-month k-active" data-date="2013-01-28">28</span><span class="k-out-of-month k-active" data-date="2013-01-29">29</span><span class="k-out-of-month k-active" data-date="2013-01-30">30</span><span class="k-out-of-month k-active" data-date="2013-01-31">31</span><span class="k-in-month k-active" data-date="2013-02-01">1</span><span class="k-in-month k-active" data-date="2013-02-02">2</span><span class="k-in-month k-active" data-date="2013-02-03">3</span><span class="k-in-month k-active" data-date="2013-02-04">4</span><span class="k-in-month k-active" data-date="2013-02-05">5</span><span class="k-in-month k-active" data-date="2013-02-06">6</span><span class="k-in-month k-active" data-date="2013-02-07">7</span><span class="k-in-month k-active" data-date="2013-02-08">8</span><span class="k-in-month k-active" data-date="2013-02-09">9</span><span class="k-in-month k-active" data-date="2013-02-10">10</span><span class="k-in-month k-active" data-date="2013-02-11">11</span><span class="k-in-month k-active" data-date="2013-02-12">12</span><span class="k-in-month k-active" data-date="2013-02-13">13</span><span class="k-in-month k-active" data-date="2013-02-14">14</span><span class="k-in-month k-active" data-date="2013-02-15">15</span><span class="k-in-month k-active" data-date="2013-02-16">16</span><span class="k-in-month k-active" data-date="2013-02-17">17</span><span class="k-in-month k-active" data-date="2013-02-18">18</span><span class="k-in-month k-active" data-date="2013-02-19">19</span><span class="k-in-month k-active" data-date="2013-02-20">20</span><span class="k-in-month k-active" data-date="2013-02-21">21</span><span class="k-in-month k-active" data-date="2013-02-22">22</span><span class="k-in-month k-active" data-date="2013-02-23">23</span><span class="k-in-month k-active" data-date="2013-02-24">24</span><span class="k-selected k-in-month k-active" data-date="2013-02-25">25</span><span class="k-in-month k-active" data-date="2013-02-26">26</span><span class="k-in-month k-active" data-date="2013-02-27">27</span><span class="k-in-month k-active" data-date="2013-02-28">28</span><span class="k-out-of-month k-active k-today" data-date="2013-03-01">1</span><span class="k-out-of-month k-active" data-date="2013-03-02">2</span><span class="k-out-of-month k-active" data-date="2013-03-03">3</span><span class="k-out-of-month k-active" data-date="2013-03-04">4</span><span class="k-out-of-month k-active" data-date="2013-03-05">5</span><span class="k-out-of-month k-active" data-date="2013-03-06">6</span><span class="k-out-of-month k-active" data-date="2013-03-07">7</span><span class="k-out-of-month k-active" data-date="2013-03-08">8</span><span class="k-out-of-month k-active" data-date="2013-03-09">9</span><span class="k-out-of-month k-active" data-date="2013-03-10">10</span></div></div></div></div>
+&nbsp;
+<div class="button-toggle">
+<a class="button button-selected" href="javascript:void(0)" tabindex="-1" title="Day View">Day</a>
+<a class="button js-nav-week test-nav-week" href="https://cramerdev.harvestapp.com/time/week/2013/02/25/67789" tabindex="1" title="Week View">Week</a>
+</div>
+
+
+</div>
+</div>
+<div class="day-view-table test-entries-of-user-67789">
+<a class="button button-primary button-new-time-entry js-new-time-entry" href="javascript:void(0)" tabindex="1" title="New Time Entry">
+<span class="plus">+</span>
+<span class="text">New Entry</span>
+</a>
+<ul class="day-view-week-nav"><li><a class="js-day selected test-not-today test-Monday" href="./web_assets/Timesheet – Cramer Development Incorporated – Harvest.html" tabindex="1" title="Monday 6.75">
+M
+<span class="js-sum-for-day">6.75</span>
+</a>
+</li><li><a class="js-day test-not-today test-Tuesday" href="https://cramerdev.harvestapp.com/time/day/2013/02/26/67789" tabindex="1" title="Tuesday 8.00">
+T
+<span class="js-sum-for-day">8.00</span>
+</a>
+</li><li><a class="js-day test-not-today test-Wednesday" href="https://cramerdev.harvestapp.com/time/day/2013/02/27/67789" tabindex="1" title="Wednesday 7.00">
+W
+<span class="js-sum-for-day">7.00</span>
+</a>
+</li><li><a class="js-day test-not-today test-Thursday" href="https://cramerdev.harvestapp.com/time/day/2013/02/28/67789" tabindex="1" title="Thursday 6.50">
+Th
+<span class="js-sum-for-day">6.50</span>
+</a>
+</li><li><a class="js-day today test-Friday" href="https://cramerdev.harvestapp.com/time/day/2013/03/01/67789" tabindex="1" title="Friday 0.00">
+F
+<span class="js-sum-for-day">0.00</span>
+</a>
+</li><li><a class="js-day test-not-today test-Saturday" href="https://cramerdev.harvestapp.com/time/day/2013/03/02/67789" tabindex="1" title="Saturday 0.00">
+S
+<span class="js-sum-for-day">0.00</span>
+</a>
+</li><li><a class="js-day test-not-today test-Sunday" href="https://cramerdev.harvestapp.com/time/day/2013/03/03/67789" tabindex="1" title="Sunday 0.00">
+S
+<span class="js-sum-for-day">0.00</span>
+</a>
+</li><li>
+<a class="js-day" href="javascript:void(0)" id="day-view-week-nav-total" tabindex="-1">
+Total:
+<b class="day-view-week-nav-total">28.25</b>
+</a>
+</li></ul>
+<ul class="day-view-entry-list"><li class="day-view-entry test-entry-133795817 not-viewed-by-admin"><table border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+
+<td>
+<div class="entry-info">
+<div class="project-client">
+<span class="project">Internal</span>
+<span class="client">
+(Cramer Development Inc)
+</span>
+</div>
+<div class="task-notes">
+<span class="task">Project Management</span>
+
+<span class="ndash">&ndash;</span>
+<span class="notes">
+<p>meetings</p>
+</span>
+
+</div>
+</div>
+</td>
+
+<td class="entry-time">
+1.00
+</td>
+<td class="entry-button">
+
+
+<a class="button button-large js-start-timer" href="javascript:void(0)" tabindex="1">
+<b class="running-icon">
+<i></i>
+</b>
+Start
+</a>
+<div class="pop-over pop-over-submit pop-over-start-timer" style="position: absolute; top: 98px; left: 568px;">
+This is not today's timesheet. Start the timer anyway?
+<div>
+<a class="button button-small button-green js-confirm-start-timer js-bubble" href="https://cramerdev.harvestapp.com/time/day/2013/02/25/67789#">Start Timer</a>
+<a class="button button-small button-cancel js-cancel-start-timer js-bubble" href="https://cramerdev.harvestapp.com/time/day/2013/02/25/67789#">Cancel</a>
+</div>
+</div>
+
+
+</td>
+<td class="edit-button">
+
+<a class="js-edit-entry button button-small button-deemphasize" href="javascript:void(0)" tabindex="1" title="Edit Entry">
+<span class="ss-icon" title="Edit Entry">Write</span>
+</a>
+
+</td>
+</tr>
+</tbody></table>
+</li><li class="day-view-entry test-entry-133795954 not-viewed-by-admin"><table border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+
+<td>
+<div class="entry-info">
+<div class="project-client">
+<span class="project">Internal</span>
+<span class="client">
+(Cramer Development Inc)
+</span>
+</div>
+<div class="task-notes">
+<span class="task">Business Development</span>
+
+<span class="ndash">&ndash;</span>
+<span class="notes">
+<p>learning about yeoman, gruntjs and bower. Preparing a presentation on the topic of yeoman</p>
+</span>
+
+</div>
+</div>
+</td>
+
+<td class="entry-time">
+2.00
+</td>
+<td class="entry-button">
+
+
+<a class="button button-large js-start-timer" href="javascript:void(0)" tabindex="1">
+<b class="running-icon">
+<i></i>
+</b>
+Start
+</a>
+<div class="pop-over pop-over-submit pop-over-start-timer">
+This is not today's timesheet. Start the timer anyway?
+<div>
+<a class="button button-small button-green js-confirm-start-timer js-bubble" href="https://cramerdev.harvestapp.com/time/day/2013/02/25/67789#">Start Timer</a>
+<a class="button button-small button-cancel js-cancel-start-timer js-bubble" href="https://cramerdev.harvestapp.com/time/day/2013/02/25/67789#">Cancel</a>
+</div>
+</div>
+
+
+</td>
+<td class="edit-button">
+
+<a class="js-edit-entry button button-small button-deemphasize" href="javascript:void(0)" tabindex="1" title="Edit Entry">
+<span class="ss-icon" title="Edit Entry">Write</span>
+</a>
+
+</td>
+</tr>
+</tbody></table>
+</li><li class="day-view-entry test-entry-133796093 not-viewed-by-admin"><table border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+
+<td>
+<div class="entry-info">
+<div class="project-client">
+<span class="project">Internal</span>
+<span class="client">
+(Cramer Development Inc)
+</span>
+</div>
+<div class="task-notes">
+<span class="task">Design</span>
+
+<span class="ndash">&ndash;</span>
+<span class="notes">
+<p>Josh's presentation: research prezi tutorials, sketch ideas, research Josh's topicm , call with Josh</p>
+</span>
+
+</div>
+</div>
+</td>
+
+<td class="entry-time">
+3.50
+</td>
+<td class="entry-button">
+
+
+<a class="button button-large js-start-timer" href="javascript:void(0)" tabindex="1">
+<b class="running-icon">
+<i></i>
+</b>
+Start
+</a>
+<div class="pop-over pop-over-submit pop-over-start-timer">
+This is not today's timesheet. Start the timer anyway?
+<div>
+<a class="button button-small button-green js-confirm-start-timer js-bubble" href="https://cramerdev.harvestapp.com/time/day/2013/02/25/67789#">Start Timer</a>
+<a class="button button-small button-cancel js-cancel-start-timer js-bubble" href="https://cramerdev.harvestapp.com/time/day/2013/02/25/67789#">Cancel</a>
+</div>
+</div>
+
+
+</td>
+<td class="edit-button">
+
+<a class="js-edit-entry button button-small button-deemphasize" href="javascript:void(0)" tabindex="1" title="Edit Entry">
+<span class="ss-icon" title="Edit Entry">Write</span>
+</a>
+
+</td>
+</tr>
+</tbody></table>
+</li><li class="day-view-entry test-entry-133860854 not-viewed-by-admin"><table border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+
+<td>
+<div class="entry-info">
+<div class="project-client">
+<span class="project">[CMNAPPS] CMN Apps</span>
+<span class="client">
+(CollegeDegrees.com)
+</span>
+</div>
+<div class="task-notes">
+<span class="task">Project Management</span>
+
+<span class="ndash">&ndash;</span>
+<span class="notes">
+<p>scrum</p>
+</span>
+
+</div>
+</div>
+</td>
+
+<td class="entry-time">
+0.25
+</td>
+<td class="entry-button">
+
+
+<a class="button button-large js-start-timer" href="javascript:void(0)" tabindex="1">
+<b class="running-icon">
+<i></i>
+</b>
+Start
+</a>
+<div class="pop-over pop-over-submit pop-over-start-timer">
+This is not today's timesheet. Start the timer anyway?
+<div>
+<a class="button button-small button-green js-confirm-start-timer js-bubble" href="https://cramerdev.harvestapp.com/time/day/2013/02/25/67789#">Start Timer</a>
+<a class="button button-small button-cancel js-cancel-start-timer js-bubble" href="https://cramerdev.harvestapp.com/time/day/2013/02/25/67789#">Cancel</a>
+</div>
+</div>
+
+
+</td>
+<td class="edit-button">
+
+<a class="js-edit-entry button button-small button-deemphasize" href="javascript:void(0)" tabindex="1" title="Edit Entry">
+<span class="ss-icon" title="Edit Entry">Write</span>
+</a>
+
+</td>
+</tr>
+</tbody></table>
+</li></ul>
+<div class="day-view-summary">
+
+<form class="new-form new-entry-form clearfix" data-parent-view-id="view41" id="master-form" style="display:none;">
+  <h2 class="field">New Time Entry</h2>
+  <div class="field nef-projects">
+    <label for="projects">Project</label>
+    <select class="chzn-select" name="projects" data-placeholder="Choose a project...">
+      <option></option>
+      <option>AKAR Website Redesign</option>
+      <option>Arearugs.com</option>
+      <option>Belle Plaine Nursery</option>
+      <option>Cramerdev.com</option>
+      <option>CMN Apps</option>
+    </select>
+  </div>
+  <div class="field nef-tasks">
+    <label for="tasks">Tasks</label>
+    <select class="chzn-select" name="tasks" data-placeholder="Choose a task...">
+      <option></option>
+      <option>Consulting</option>
+      <option>Design</option>
+      <option>Development</option>
+      <option>Project Management</option>
+    </select>
+  </div>
+  <div class="field nef-duration-notes">
+    <label for="entry-notes">Notes (optional)</label>
+    <textarea class="entry-notes js-notes" id="entry-notes" name="notes" placeholder="Add an optional note..." style="overflow: hidden; word-wrap: break-word; resize: none; height: 56px;"></textarea>
+    <span class="add-notes-helper-text">Shift+Return for line break</span>
+  </div>
+  <div class="field nef-duration">
+    <label for="entry-duration">Hours</label>
+    <input class="entry-duration js-duration" id="entry-duration" name="duration" placeholder="0.00" type="text">
+    <span><strong>Example:</strong> <br> Enter 2.5 or 2:30, or leave blank to start a new timer.</span>
+  </div>
+  <div class="field nf-submit">
+    <input class="button button-large button-primary js-save" type="submit" value="Start Timer">
+    <a class="button button-large button-cancel js-cancel" href="#">Cancel</a>
+  </div>
+</form>
+<div class="day-view-total js-total-for-day">
+Total:
+<span>6.75</span>
+</div>
+
+
+</div>
+</div>
+<div class="timesheet-bottom">
+<div class="day-view-duplication"><span class="test-day-view-duplication">
+</span></div>
+
+</div>
+</div></div>
+    </div>
+    <div class="footer-space"></div>
+  </div>
+
+  <footer>
+    <div class="wrapper">
+      <a href="http://www.getharvest.com/" class="footer-harvest-link">Harvest</a>
+    </div>
+  </footer>
+
+  <script id="list-template" type="text/tmpl">
+    <li class="day-view-entry not-viewed-by-admin">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr>
+          <td>
+            <div class="entry-info">
+              <div class="project-client">
+                <span class="project"><%= task[0].value %></span>
+                <span class="client">(Client)</span>
+              </div>
+              <div class="task-notes">
+                <span class="task"><%= task[1].value %></span>
+                <span class="ndash">&ndash;</span>
+                <span class="notes">
+                  <p><%= task[2].value %></p>
+                </span>
+              </div>
+            </div>
+          </td>
+          <td class="entry-time">
+            <%= task[3].value %>
+          </td>
+          <td class="entry-button">
+            <a class="button button-large js-start-timer" href="javascript:void(0)" tabindex="1">
+              <b class="running-icon"><i></i></b>Start
+            </a>
+          </td>
+          <td class="edit-button">
+            <a class="js-edit-entry button button-small button-deemphasize" href="javascript:void(0)" tabindex="1" title="Edit Entry">
+              <span class="ss-icon" title="Edit Entry">Write</span>
+            </a>
+          </td>
+        </tr></tbody>
+      </table>
+    </li>
+  </script>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="./js/underscore.js"></script>
+  <script src="./chosen/chosen.jquery.js"></script>
+  <script src="./js/main.js"></script>
+
+</body></html>

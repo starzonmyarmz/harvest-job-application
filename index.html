@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>Harvest Timesheet Day View Revamp by Daniel Marino</title>
+	<meta name="generator" content="iA Writer for Mac 1.4 (1.4)" />
+  <style type="text/css">
+    body { color: #222; font: normal normal 400 100%/1.5em georgia,serif; margin: 3em 20% }
+    a { color: #3366CC }
+    blockquote,ol,p,ul { display: block; margin: 0 0 1.5em }
+    blockquote { border-left: solid .1em #E4E4E4; color: #919191; padding: 0 1.5em 0 1.4em }
+    code { font: normal normal 87.5%/1.71428571em monospace,sans-serif }
+    img { display: block; margin: 1.5em auto }
+    pre { display: block; font: normal normal 87.5%/1.71428571em monospace,sans-serif; margin: 1.71428571em }
+    h1,h2,h3,h4,h5,h6 { font-weight: 400 }
+    h1 { font-size: 225%; line-height: 1.2em; margin: 0 0 1.5em; text-align: center; }
+    h1 small { font-size: 50%; }
+    h2 { font-size: 175%; line-height: 1.28571429em; margin: 1em 0 .5em }
+    h3 { font-size: 137.5%; line-height: 1.3636em; margin: 0 0 .5em }
+    h4,h5,h6 { font-size: 112.5%; line-height: 1.3334em; margin: 0 0 .7778em }
+    ol,ul { list-style-position: outside; }
+    ol ol,ol ul,ul ol,ul ul { margin: 0 0 .75em 2em }
+    li { margin-bottom: .3em;}
+    table { border-collapse: collapse; margin: 1.5em 0; width: 100% }
+    td,th { border: solid .1em #000; font-family: sans-serif; font-size: 87.5%; line-height: 1.71428571em; text-align: center }
+
+    figure { margin: 0;}
+    figcaption {
+      font-size: 80%;
+      line-height: 1.2;
+      margin-bottom: 3.5em;
+      text-align: center;
+    }
+
+    .thumbs { margin: 0; padding: 0; list-style: none; }
+    .thumbs img { width: 100%; }
+
+    .btn { background: gray; border-radius: 5px; color: #fff; font-size: 130%; line-height: 1; margin: 0 5px; opacity: .5; padding: 10px 20px; text-decoration: none; }
+    .primary { background: #f36c00; color: #fff; opacity: 1; }
+  </style>
+</head>
+<body>
+<h1>
+  Timesheet Day View Revamping<br>
+  <small>by <a href="http://iamdanielmarino.com">Daniel Marino</a></small>
+</h1>
+
+<p style="margin:4em 0; text-align:center;"><a class="btn primary" href="../v1.html" target="_blank">View Prototype</a> or <a class="btn" href="../harvest.zip">Download Source</a></p>
+
+<p>I greatly enjoyed the challenge of reworking an interface that I use almost daily: the <a href="http://dl.dropbox.com/u/138203/harvest/v1.html" title="http://dl.dropbox.com/u/138203/harvest/v1.html">Timesheet Day View</a>. I spent around 15 hours in total on this, working on sketches/wireframes, some Photoshop comps, and a semi-working prototype. Below I will detail my process.
+</p>
+<h2>Sketches/Wireframes</h2>
+
+<p>I find sketching really helpful for two reasons: One, it helps get ideas out on paper quickly, and two, it gives a great starting point for discussing ideas with other team members. Sketching can prevent a lot of wasted time by finding pain points in ideas before going straight to high-fidelity mockups or prototyping/development.
+</p>
+<p>Based on discussions with Shawn, some of the customer issues we are trying to solve are:
+</p>
+<ol><li>Making input fields less ambiguous to the user on the time entry form - particularly the <em>task</em> and <em>hours</em> input fields.
+</li><li>Allowing users to enter and edit times without hiding existing entries. It appears customers like to be able to see past entries for the day while entering new entries for context.
+</li></ol>
+<p>Here are my sketches/wireframes:</p>
+
+<ul class="thumbs">
+  <li><img src="sketch-timesheet-v1.png" alt="Sketch Timesheet v1"></li>
+  <li><img src="sketch-timesheet-v2.png" alt="Sketch Timesheet v2"></li>
+  <li><img src="sketch-timesheet-v3.png" alt="Sketch Timesheet v3"></li>
+  <li><img src="sketch-timesheet-v4.png" alt="Sketch Timesheet v4"></li>
+</ul>
+
+<p>I based <a href="../v1.html" target="_blank">my prototype</a> on version four with some modifications. I felt that this addressed the issues above the best.</p>
+<h3>Time Entry Dialog</h3>
+
+<p>I feel that Harvest's Mac App does a decent job of handling the Time Entry dialog, so I took some cues from that interface. I used the <code>placeholder</code> attribute to describe the <em>project</em>, <em>task</em> and <em>note</em> input fields (and use <code>&lt;label&gt;</code> elements as a graceful fallback for older browsers that don't support the <code>placeholder</code> attribute). By hiding <code>&lt;label&gt;</code> elements each input field flows nicely into the next. It also reduces the overall height of the time entry form by about 30%. Double-win!
+</p>
+<p>Shawn said that users were particularly vexed by the <em>hour</em> input field because there was no labeling, and using a decimal value as a <code>placeholder</code> threw users off. To fix this I added a <em>clock</em> icon to give the user some context for what kind of data should be entered into the input field, as well as descriptive text (borrowed from the Mac App) to the right of the input field.
+</p>
+<p>I wrestled with the decision for a little as to whether the <code>placeholder</code> should read "0.00" (with a decimal) or "0:00" (with a colon). I feel that using a colon will better communicate that the input is looking for time-related data. However, the value is immediately converted to a decimal number with JavaScript, and I feel this would confuse users even more. Thus, in the end I stuck with the decimal format. Having said all that, I think this would make an interesting user test.
+</p>
+<h3>Adding/Editing Entries</h3>
+
+<p>Similar to a previous version of the Timesheet Day View page, I think it makes sense to append the time entry dialog to the bottom of existing entries. It provides proper context chronologically and allows the user to review previous entries while entering a new one.
+</p>
+<p>It also makes sense to allow the user to edit existing entries where they already exist in the page.
+</p>
+<h2>Rapid, High-Fidelity Comping</h2>
+
+<p>HTML Forms can be a pain point when coding, especially if you want to iterate rapidly. To quickly work through layout and design ideas for the time entry dialog, I used Photoshop to create high fidelity mockups. After 11 variations, I finally settled on the one seen in the <a href="../v1.html" target="_blank">Prototype</a> (version 11). Here are a few selected variations:</p>
+
+<ul class="thumbs">
+  <li>
+    <figure>
+      <img src="time-entry-v1.png" alt="Time Entry v1">
+      <figcaption>v1 showing <code>&lt;label&gt;</code> elements, time-formatted (with colon) <code>placeholder</code> and helper text for <em>hours</em> field.</figcaption>
+    </figure>
+  </li>
+  <li>
+    <figure>
+      <img src="time-entry-v4.png" alt="Time Entry v4">
+      <figcaption>v4 showing a clock icon, the removal of <code>&lt;label&gt;</code> elements and addition of <code>placeholder</code> attributes.</figcaption>
+    </figure>
+  </li>
+
+  <li>
+    <figure>
+      <img src="time-entry-v11.png" alt="Time Entry v11">
+      <figcaption>v11 showing a lot of polish where all inputs have similar styling, have better alignment, and rewording of <em>hours</em> helper text.</figcaption>
+    </figure>
+  </li>
+</ul>
+
+<h2>Prototype</h2>
+
+<p>A picture is worth a thousand words, but a prototype is worth so much more. It allows users to interact with buttons, input fields, and transitions.
+</p>
+<p style="margin:4em 0; text-align:center;"><a class="btn primary" href="../v1.html" target="_blank">View Prototype</a> or <a class="btn" href="../harvest.zip">Download Source</a></p>
+<p style="line-height: 1.2;"><small><em>Note: I had to recreate most of the interactions because the app is designed to run on Harvest's servers. In the interest of time I didn't recreate all interactions.</em></small></p>
+<h3>The Nitty Gritty (tools &amp; libraries used)</h3>
+
+<p>I love reading how websites get built. In case you do too here are the tools and libraries I used:
+</p>
+<ul><li>jQuery for DOM manipulation
+</li><li><a href="http://underscorejs.org/" target="_blank">underscore.js</a> for compiling JS templates (adding new entries)
+</li><li>Harvest's Chosen jQuery plugin :)
+</li><li>SASS/Compass for writing and compiling CSS
+</li></ul>
+<h2>In Closing</h2>
+
+<p>Thank you for the opportunity to work on this task. Again, I really enjoyed the challenge. I've got even more ideas, and would love to share them! I'd also be happy to talk more in depth about my process, code, or any other questions you might have. I look forward to speaking with you soon!</p>
+</body>
+</html>

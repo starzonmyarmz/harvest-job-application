@@ -1,0 +1,57 @@
+.new-entry-form,
+.new-entry-form *:not(.chzn-single),
+  @include box-sizing(border-box)
+
+.new-entry-form
+  background: #d4f1ff
+  border-bottom: 1px solid #ccc
+  padding: 15px
+
+  li &
+    border-bottom: 0
+
+  h2
+    margin-bottom: 15px
+
+  .nf-field:nth-child(2),
+  .nf-field:nth-child(3)
+    float: left
+    width: 50%
+
+  .nf-field:nth-child(2)
+    padding-right: 7px
+
+  .nf-field:nth-child(3)
+    padding-left: 7px
+
+  .nf-field:nth-child(4)
+    clear: both
+
+  .chzn-container, .chzn-drop
+    width: 100% !important
+
+  .chzn-single
+    height: 24px !important
+
+  .nef-duration-notes
+    padding-right: 15px
+    width: 80%
+
+    > textarea
+      max-width: none
+      width: 100%
+
+  .add-notes-helper-text
+    right: 25px
+
+  .nef-duration
+    float: left
+    margin: 0
+    width: 20%
+
+  .add-time-helper-tip
+    opacity: .65
+    font-size: .85em
+
+.is-disabled
+  opacity: .3 !important
